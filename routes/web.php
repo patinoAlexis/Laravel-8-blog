@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostController;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
@@ -17,31 +18,28 @@ use PhpParser\Node\Stmt\Catch_;
 |
 */
 
-Route::get('/', function () {
-    
-    return view('posts',[
-        'posts' => Post::latest()->with('category','author')->get()
-    ]);
-});
+Route::get('/', [PostController::class,'index'])->name('home');
 
 
 //Find a post base on the value given or return error 404
-Route::get('posts/{post:slug}', function (Post $post) {
-    return view('post', [
-        // 'post' => Post::findOrFail($post)
-        'post' => $post
-    ]);
-});
+Route::get('posts/{post:slug}', [PostController::class,'show']);
 
-Route::get('/categories/{category:slug}', function (Category $category) {
 
-    return view('posts', [
-        'posts' => $category->posts->load(['category','author'])
-    ]);
-});
+//We will not use this URI because at the end we want to
+// be able to use a better filtrarion system that combines
+// the auhor, category, etc.
+// Route::get('/categories/{category:slug}', function (Category $category) {
+
+//     return view('posts', [
+//         'posts' => $category->posts->load(['category','author']),
+//         'currentCategory' => $category,
+//         'categories' => Category::all()
+//     ]);
+// });
 Route::get('/authors/{author:username}', function (User $author) {
     
     return view('posts',[
         'posts' => $author->posts->load(['category','author'])
+        // 'categories' => Category::all()
     ]);
 });
