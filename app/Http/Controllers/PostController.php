@@ -10,7 +10,7 @@ class PostController extends Controller
 {
     public function index(){
         return view('posts.index',[
-            'posts' => Post::latest()->filter(request(['search','category']))->get()
+            'posts' => Post::latest()->filter(request(['search','category','author']))->get()
             // 'categories' => Category::all(),
             // 'currentCategory' => Category::firstWhere('slug',request('category'))
 
@@ -19,7 +19,7 @@ class PostController extends Controller
     }
     public function show(Post $post)
     {
-        return view('post.show', [
+        return view('posts.show', [
             // 'post' => Post::findOrFail($post)
             'post' => $post
         ]);

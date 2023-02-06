@@ -10,7 +10,7 @@
     @endif
 
     @foreach($categories as $category)
-        <x-droopdown-item href="/?category={{ $category->slug }}"
+        <x-droopdown-item href="/?category={{ $category->slug }}&{{ http_build_query(request()->except('category')) }}"
             :active="isset($currentCategory) && $currentCategory->is($category)"
         >{{ ucwords($category->name) }}</x-droopdown-item>
 {{-- 
