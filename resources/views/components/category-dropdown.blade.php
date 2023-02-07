@@ -6,11 +6,14 @@
         </button>
     </x-slot>
     @if(isset($currentCategory))
-    <x-droopdown-item href="/" >All Categories</x-droopdown-item>
+    <x-droopdown-item 
+        href="/?{{ http_build_query(request()->except('category','page')) }}" 
+        >All Categories
+    </x-droopdown-item>
     @endif
 
     @foreach($categories as $category)
-        <x-droopdown-item href="/?category={{ $category->slug }}&{{ http_build_query(request()->except('category')) }}"
+        <x-droopdown-item href="/?category={{ $category->slug }}&{{ http_build_query(request()->except('category','page')) }}"
             :active="isset($currentCategory) && $currentCategory->is($category)"
         >{{ ucwords($category->name) }}</x-droopdown-item>
 {{-- 
