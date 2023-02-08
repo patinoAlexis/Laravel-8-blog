@@ -20,6 +20,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'username',
         'password',
     ];
 
@@ -41,6 +42,17 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    //This name has a convention of being call
+    // like this, because if we change the name
+    // eloquent will not look for it
+    // it has to start with "set",
+    // followed by the name of the variable
+    // and finish with "attribute"
+    public function setPasswordAttribute($pass)
+    {
+        $this->attributes['password'] = bcrypt($pass);
+    }
 
     public function posts(){
         return $this->hasMany(Post::class);
