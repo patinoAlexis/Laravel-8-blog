@@ -13,17 +13,20 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('posts', function (Blueprint $table) {
+        Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('category_id')->constrained()->cascadeOnDelete();
+            // $table->unsignedBigInteger('post_id');
+            // $table->foreign('post_id')->references('id')->on('posts')->cascadeOnDelete();
+            //Because we are calling this variable "post_id" we can leave
+            // null the variable in the method "constrained", but in the
+            // case that this is not the case, we should especify the name
+            $table->foreignId('post_id')->constrained()->cascadeOnDelete();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->string('slug')->unique();
-            $table->string('title');
-            $table->text('excerpt');
             $table->text('body');
             $table->timestamps();
-            $table->timestamp('pubished_at')->nullable();
-            
+
+
+
         });
     }
 
@@ -34,6 +37,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('posts');
+        Schema::dropIfExists('comments');
     }
 };

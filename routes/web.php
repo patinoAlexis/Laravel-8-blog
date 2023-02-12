@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostCommentController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SessionsController;
@@ -25,6 +26,8 @@ Route::get('/', [PostController::class,'index'])->name('home');
 
 //Find a post base on the value given or return error 404
 Route::get('posts/{post:slug}', [PostController::class,'show']);
+Route::post('posts/{post:slug}/comments',[PostCommentController::class,'store'])
+    ->middleware('auth');
 
 
 Route::get('register', [RegisterController::class, 'create'])
