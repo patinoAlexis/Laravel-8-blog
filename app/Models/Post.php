@@ -17,7 +17,7 @@ class Post extends Model
     protected $guarded = ['id'];
     //fillable is the complete oposite of guarded, where you have to declare, 
     // which columns are allowed to be modified.
-    protected $fillable = ['title','excerpt','body','category_id'];
+    protected $fillable = ['title','excerpt','body','category_id','user_id','slug','thumbnail'];
 
     //This is gonna be usable when in our routers file
     // we dont want to always do a "/posts/{posts:slug}"

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminPostController;
 use App\Http\Controllers\PostCommentController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\RegisterController;
@@ -44,6 +45,35 @@ Route::get('login', [SessionsController::class, 'create'])
     ->middleware('guest');
 Route::post('login', [SessionsController::class, 'store'])
     ->middleware('guest');
+
+
+//admin
+Route::get('admin/posts',[AdminPostController::class , 'index' ])
+    ->middleware('admin');
+Route::get('admin/posts/create',[AdminPostController::class , 'create' ])
+    ->middleware('admin');
+Route::get('admin/posts/{post:id}/edit',[AdminPostController::class , 'edit' ])
+    ->middleware('admin');
+Route::post('admin/posts',[AdminPostController::class , 'store' ])
+    ->middleware('admin');
+Route::patch('admin/posts/{post:id}',[AdminPostController::class , 'update' ])
+    ->middleware('admin');
+//We created an especific middleware for securing that the user is an admin
+// but because we have a gate created that also checks is the user is admin, 
+// we can use the "can" middleware to check if the user is an admin
+// like in the next route
+Route::delete('admin/posts/{post:id}',[AdminPostController::class , 'destroy' ])
+    ->middleware('can:admin');
+
+/*************** ************* 
+If we want to avoid always declaring the same middleware, 
+and at the same time avoid repeting routes with the same controller,
+we can use also the next function that looks in the controller class
+for the 7 basic actions  that all resoursfull controllers have,
+************* ************* */
+// Route::middleware('can:admin')->group(function () {
+//     Route::resource('admin/posts',AdminPostController::class)->except('show');
+// })
 
 //We will not use this URI because at the end we want to
 // be able to use a better filtrarion system that combines
